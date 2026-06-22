@@ -1,0 +1,37 @@
+name: Build Debug APK
+
+# Runs automatically every time you push code, and can also be triggered manually
+# from the Actions tab. Builds a debug APK (auto-signed with a throwaway debug
+# keystore - fine for installing on your own phone to test, NOT for Play Store
+# submission, which needs a real release keystore you generate yourself).
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: jkjobs-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
