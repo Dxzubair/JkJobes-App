@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.jkjobs.app.data.JobPosting
 
-@Database(entities = [JobPosting::class], version = 2, exportSchema = false)
+@Database(entities = [JobPosting::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun jobDao(): JobDao
 

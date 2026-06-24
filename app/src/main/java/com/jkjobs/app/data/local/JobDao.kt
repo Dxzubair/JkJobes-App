@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface JobDao {
 
-    @Query("SELECT * FROM jobs ORDER BY fetchedAtMillis DESC")
+    @Query("SELECT * FROM jobs ORDER BY COALESCE(postedAtMillis, fetchedAtMillis) DESC")
     fun observeAllJobs(): Flow<List<JobPosting>>
 
-    @Query("SELECT * FROM jobs WHERE isSaved = 1 ORDER BY fetchedAtMillis DESC")
+    @Query("SELECT * FROM jobs WHERE isSaved = 1 ORDER BY COALESCE(postedAtMillis, fetchedAtMillis) DESC")
     fun observeSavedJobs(): Flow<List<JobPosting>>
 
     /**
@@ -30,7 +30,7 @@ interface JobDao {
         SELECT * FROM jobs
         WHERE (:source IS NULL OR source = :source)
           AND (:district IS NULL OR title LIKE '%' || :district || '%')
-        ORDER BY fetchedAtMillis DESC
+        ORDER BY COALESCE(postedAtMillis, fetchedAtMillis) DESC
         """
     )
     fun observeFiltered(source: String?, district: String?): Flow<List<JobPosting>>

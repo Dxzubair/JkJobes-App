@@ -24,7 +24,13 @@ data class JobPosting(
     val publishedLabel: String, // raw date text as shown on the source site (format varies by source)
     val fetchedAtMillis: Long,
     val isSaved: Boolean = false,
-    val isSeen: Boolean = false
+    val isSeen: Boolean = false,
+    // The actual posting date, parsed from publishedLabel where the source's HTML exposes one
+    // (currently JKSSB, JKPSC, JKUpdates - see JobSources.kt's dateSelector). Null for sources
+    // with no date selector, where publishedLabel is just "Recently posted" and fetchedAtMillis
+    // is the only timestamp we have (see DateParser.kt for why a universal parser isn't possible
+    // across 16 differently-formatted government/university sites).
+    val postedAtMillis: Long? = null
 )
 
 object JobIdGenerator {

@@ -50,7 +50,9 @@ fun HomeScreen(
     val context = LocalContext.current
     // Stopgap: keep obviously old backlog postings out of the "Latest Jobs" spotlight until
     // real per-source date parsing (postedAtMillis) replaces this. See StaleJobHeuristic.kt.
-    val latest = jobs.filterNot { it.isLikelyStale() }.take(5).ifEmpty { jobs.take(5) }
+    // Deliberately no fallback to stale jobs if this list ends up empty - showing old postings
+    // as "latest" is exactly the bug this exists to prevent.
+    val latest = jobs.filterNot { it.isLikelyStale() }.take(5)
 
     androidx.compose.runtime.LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(3000)

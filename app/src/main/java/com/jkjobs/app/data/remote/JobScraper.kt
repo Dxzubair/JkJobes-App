@@ -149,7 +149,8 @@ class JobScraper(
                 title = title,
                 link = href,
                 publishedLabel = dateLabel,
-                fetchedAtMillis = fetchedAt
+                fetchedAtMillis = fetchedAt,
+                postedAtMillis = DateParser.parseToMillis(dateLabel)
             )
         } catch (e: Exception) {
             Log.w(TAG, "[${source.name}] Skipped one malformed row: ${e.message}")
