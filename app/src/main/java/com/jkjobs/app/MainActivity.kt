@@ -7,7 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Grade
@@ -63,7 +65,7 @@ private data class Tab(val route: String, val label: String, val icon: androidx.
 
 private val tabs = listOf(
     Tab("home", "Home", Icons.Filled.Home),
-    Tab("feed", "Jobs", androidx.compose.material.icons.Icons.AutoMirrored.Filled.List),
+    Tab("feed", "Jobs", Icons.AutoMirrored.Filled.List),
     Tab("admitCards", "Admit Cards", Icons.Filled.CreditCard),
     Tab("results", "Results", Icons.Filled.Grade),
     Tab("settings", "Settings", Icons.Filled.Settings)
