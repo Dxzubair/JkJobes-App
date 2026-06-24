@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jkjobs.app.data.JobPosting
 import com.jkjobs.app.data.SafeUrl
 import com.jkjobs.app.ui.JobsViewModel
+import com.jkjobs.app.ui.isLikelyStale
 
 /** JKJobs+ brand purple, used for the Home dashboard's hero/banner elements.
  *  Kept local to Home (rather than overriding the app-wide Material You theme) so the
@@ -47,7 +48,9 @@ fun HomeScreen(
 ) {
     val jobs by viewModel.visibleFeed.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val latest = jobs.take(5)
+    // Stopgap: keep obviously old backlog postings out of the "Latest Jobs" spotlight until
+    // real per-source date parsing (postedAtMillis) replaces this. See StaleJobHeuristic.kt.
+    val latest = jobs.filterNot { it.isLikelyStale() }.take(5).ifEmpty { jobs.take(5) }
 
     androidx.compose.runtime.LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(3000)
