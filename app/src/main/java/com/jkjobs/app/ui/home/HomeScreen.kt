@@ -49,6 +49,11 @@ fun HomeScreen(
     val context = LocalContext.current
     val latest = jobs.take(5)
 
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(3000)
+        viewModel.markAllSeen()
+    }
+
     Scaffold { padding ->
         LazyColumn(
             modifier = Modifier.padding(padding).fillMaxSize(),

@@ -39,6 +39,11 @@ fun FeedScreen(viewModel: JobsViewModel = viewModel()) {
     val sources by viewModel.availableSources.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(3000)
+        viewModel.markAllSeen()
+    }
+
     Scaffold(
         topBar = { TopAppBar(title = { Text("All Jobs") }) }
     ) { padding ->

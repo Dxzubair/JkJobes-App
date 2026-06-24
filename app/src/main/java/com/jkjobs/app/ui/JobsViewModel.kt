@@ -88,6 +88,14 @@ class JobsViewModel(app: Application) : AndroidViewModel(app) {
         _selectedDistrict.value = if (_selectedDistrict.value == district) null else district
     }
 
+    /** Marks every currently-stored job as seen, so the "New" badge only ever highlights jobs
+     *  that were scraped after the user last looked - not the entire historical backlog from
+     *  a source the app just started tracking. Called from screens after the feed has been
+     *  on-screen for a moment, so the badge is still visible just long enough to be useful. */
+    fun markAllSeen() {
+        viewModelScope.launch { repo.markAllSeen() }
+    }
+
     fun refresh() {
         viewModelScope.launch {
             _isRefreshing.value = true
