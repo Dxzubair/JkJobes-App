@@ -40,7 +40,7 @@ fun FeedScreen(viewModel: JobsViewModel = viewModel()) {
     val context = LocalContext.current
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("JK Job Alerts") }) }
+        topBar = { TopAppBar(title = { Text("All Jobs") }) }
     ) { padding ->
         PullToRefreshBox(
             isRefreshing = isRefreshing,

@@ -23,7 +23,8 @@ fun JobCard(
     Card(
         onClick = onOpen,
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -31,14 +32,21 @@ fun JobCard(
             verticalAlignment = Alignment.Top
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                AssistChip(label = job.source)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = job.title,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    if (!job.isSeen) {
+                        Spacer(Modifier.width(8.dp))
+                        StatusPill(label = "New")
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                SourceChip(label = job.source)
                 Spacer(Modifier.height(6.dp))
-                Text(
-                    text = job.title,
-                    fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(Modifier.height(4.dp))
                 Text(
                     text = job.publishedLabel,
                     style = MaterialTheme.typography.labelMedium,
@@ -48,7 +56,8 @@ fun JobCard(
             IconButton(onClick = onToggleSave) {
                 Icon(
                     imageVector = if (job.isSaved) Icons.Filled.BookmarkAdded else Icons.Filled.BookmarkBorder,
-                    contentDescription = if (job.isSaved) "Unsave" else "Save"
+                    contentDescription = if (job.isSaved) "Unsave" else "Save",
+                    tint = if (job.isSaved) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -56,14 +65,30 @@ fun JobCard(
 }
 
 @Composable
-private fun AssistChip(label: String) {
+private fun SourceChip(label: String) {
     Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
+        color = MaterialTheme.colorScheme.primaryContainer,
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+        )
+    }
+}
+
+@Composable
+private fun StatusPill(label: String) {
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
         )
     }
